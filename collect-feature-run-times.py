@@ -15,10 +15,10 @@ def main():
 
     items = []
     for path in Path(args.artifact_dir).rglob('custom-junit/*.xml'):
-        m = re.match(r'TEST-features\.ci-feature-(.*?)-(.*).xml', path.name)
+        m = re.match(r'TEST-features\.ci-feature-(?P<group>(ie-)?.*?)-(?P<feature>.*).xml', path.name)
 
-        group_number = m.group(1)
-        feature_name = m.group(2) + '.feature'
+        group_number = m.group('group')
+        feature_name = m.group('feature') + '.feature'
         with path.open() as fp:
             for line in fp:
                 m = re.match(r'<testsuite .* time="(.*?)"', line)
